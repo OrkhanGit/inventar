@@ -18,7 +18,7 @@ services:
       retries: 10
 
   app:
-    build: src/main
+    build: .
     container_name: inventar-app
     restart: always
     depends_on:

@@ -1,8 +1,8 @@
 # 1-ci mərhələ: build
-FROM gradle:8.10-jdk21 AS build
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 COPY . .
-RUN gradle bootJar -x test --no-daemon
+RUN chmod +x gradlew && ./gradlew bootJar -x test --no-daemon
 
 # 2-ci mərhələ: işlətmə
 FROM eclipse-temurin:21-jre
