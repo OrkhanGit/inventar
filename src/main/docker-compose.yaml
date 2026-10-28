@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: inventar-db
+    restart: always
+    environment:
+      POSTGRES_USER: inventar
+      POSTGRES_PASSWORD: inventar
+      POSTGRES_DB: inventar-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_inventar:/var/lib/postgresql/data
+
+volumes:
+  postgres_data_inventar:
