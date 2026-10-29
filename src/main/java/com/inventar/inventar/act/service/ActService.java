@@ -3,6 +3,7 @@ package com.inventar.inventar.act.service;
 import com.inventar.inventar.act.model.Act;
 import com.inventar.inventar.act.model.ActDto;
 import com.inventar.inventar.act.repository.ActRepository;
+import com.inventar.inventar.enums.Condition;
 import com.inventar.inventar.enums.Status;
 import com.inventar.inventar.exception.ConflictException;
 import com.inventar.inventar.mapper.AllMapper;
@@ -14,10 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,12 +36,18 @@ public class ActService {
 
         List<Product> activeProducts = productRepository.findByBarcodeInAndStatus(barcodes, Status.ACTIVE);
 
+        Map<String, Integer> indexByBarcode = new HashMap<>();
+        for (int i = 0; i < barcodes.size(); i++) {
+            indexByBarcode.put(barcodes.get(i), i);
+        }
+
         if (!activeProducts.isEmpty()) {
             for (Product product : activeProducts) {
                 product.setLocation(actDto.getToLocation());
                 product.setStatus(Status.INACTIVE);
+                Integer idx = indexByBarcode.get(product.getBarcode());
+                if (idx != null) applyState(product, actDto, idx);
             }
-
             productRepository.saveAll(activeProducts);
         }
 
@@ -94,6 +99,8 @@ public class ActService {
             product.setFromUser(actDto.getFromUser());
             product.setDescription(actDto.getDescription());
 
+            applyState(product, actDto, i);
+
             ProductMovementDate movement = new ProductMovementDate();
             movement.setEntryDate(entryDate);
             movement.setProduct(product);
@@ -105,7 +112,7 @@ public class ActService {
         productRepository.saveAll(toSave);
 
         Act act = actMapper.toAct(actDto);
-        act.setDate(LocalDateTime.now());
+        act.setDate(LocalDateTime.now(ZoneId.of("Asia/Baku")));
         actRepository.save(act);
 
         return actMapper.toActDto(act);
@@ -116,6 +123,20 @@ public class ActService {
         List<Act> all = actRepository.findAll();
         return actMapper.toActDto(all);
 
+    }
+
+    private void applyState(Product product, ActDto dto, int index) {
+        List<Boolean> ts = dto.getToService();
+        boolean toService = ts != null && index < ts.size() && Boolean.TRUE.equals(ts.get(index));
+        product.setToService(toService);
+
+        List<String> conds = dto.getCondition();
+        if (conds != null && index < conds.size() && conds.get(index) != null) {
+            try {
+                product.setCondition(Condition.valueOf(conds.get(index).trim().toUpperCase()));
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
     }
 
 

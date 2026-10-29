@@ -1,5 +1,6 @@
 package com.inventar.inventar.product.model;
 
+import com.inventar.inventar.enums.Condition;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,5 +16,7 @@ public class ProductDto {
     private LocalDateTime entryDate;
     private String description;
     private Long count;
+    private Condition condition;
+    private Boolean toService;
 
 }

@@ -1,10 +1,10 @@
 package com.inventar.inventar.product.model;
 
+import com.inventar.inventar.enums.Condition;
 import com.inventar.inventar.enums.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +26,10 @@ public class Product {
     private Long count;
     private String description;
     private String owner;
+    private Boolean toService = false;
+
+    @Enumerated(EnumType.STRING)
+    private Condition condition;
 
     @Enumerated(EnumType.STRING)
     private Status status;

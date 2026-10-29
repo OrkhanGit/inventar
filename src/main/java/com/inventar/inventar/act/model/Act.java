@@ -26,7 +26,8 @@ public class Act {
     private String toUser;
     private String fromUser;
     private String owner;
-
+    private List<String> condition;
+    private List<Boolean> toService;
 
 
 }

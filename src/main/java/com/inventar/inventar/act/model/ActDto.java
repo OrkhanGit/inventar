@@ -18,5 +18,7 @@ public class ActDto {
     private String description;
     private String fromUser;
     private String toUser;
+    private List<String> condition;
+    private List<Boolean> toService;
 
 }

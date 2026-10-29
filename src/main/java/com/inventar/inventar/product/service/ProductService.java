@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -30,7 +31,7 @@ public class ProductService {
         product.setStatus(Status.ACTIVE);
 
         ProductMovementDate movement = new ProductMovementDate();
-        movement.setEntryDate(LocalDateTime.now());
+        movement.setEntryDate(LocalDateTime.now(ZoneId.of("Asia/Baku")));
         movement.setProduct(product);
         product.getMovementsDate().add(movement);
 
