@@ -28,6 +28,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/inventar-db
       SPRING_DATASOURCE_USERNAME: inventar
       SPRING_DATASOURCE_PASSWORD: inventar
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
     ports:
       - "8082:8080"
 

@@ -27,6 +27,7 @@ public class Product {
     private String description;
     private String owner;
     private Boolean toService = false;
+    private Long serviceCount = 0L;
 
     @Enumerated(EnumType.STRING)
     private Condition condition;

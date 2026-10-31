@@ -10,8 +10,9 @@ public class ProductServiceDto {
     private String barcode;
     private String name;
     private Long count;
-    private String owner;
+    private String fromUser;
     private LocalDateTime entryDate;
     private String description;
+    private Long serviceCount = 0L;
 
 }

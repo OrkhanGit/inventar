@@ -41,12 +41,19 @@ public class ActService {
             indexByBarcode.put(barcodes.get(i), i);
         }
 
+        boolean toServicePlace = isServicePlace(actDto.getToLocation());
+
         if (!activeProducts.isEmpty()) {
             for (Product product : activeProducts) {
                 product.setLocation(actDto.getToLocation());
                 product.setStatus(Status.INACTIVE);
                 Integer idx = indexByBarcode.get(product.getBarcode());
                 if (idx != null) applyState(product, actDto, idx);
+
+                if (toServicePlace) {
+                    long current = product.getServiceCount() == null ? 0L : product.getServiceCount();
+                    product.setServiceCount(current + 1);
+                }
             }
             productRepository.saveAll(activeProducts);
         }
@@ -137,6 +144,14 @@ public class ActService {
             } catch (IllegalArgumentException ignored) {
             }
         }
+    }
+
+    private static final Set<String> SERVICE_PLACES = Set.of("Soliton_LTD_MMC", "Skaner_MMC");
+
+    private boolean isServicePlace(String place) {
+        if (place == null) return false;
+        String p = place.trim();
+        return SERVICE_PLACES.stream().anyMatch(s -> s.equalsIgnoreCase(p));
     }
 
 
