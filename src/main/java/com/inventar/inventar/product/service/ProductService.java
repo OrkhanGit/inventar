@@ -2,10 +2,7 @@ package com.inventar.inventar.product.service;
 
 import com.inventar.inventar.enums.Status;
 import com.inventar.inventar.mapper.AllMapper;
-import com.inventar.inventar.product.model.Product;
-import com.inventar.inventar.product.model.ProductDto;
-import com.inventar.inventar.product.model.ProductMovementDate;
-import com.inventar.inventar.product.model.ProductServiceDto;
+import com.inventar.inventar.product.model.*;
 import com.inventar.inventar.product.repository.ProductMovementDateRepository;
 import com.inventar.inventar.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +64,11 @@ public class ProductService {
         return productRepository.findByBarcode(barcode)
                 .map(productMapper::toProductDto)
                 .orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SearchProductDto> getSearchProducts() {
+        return productMapper.toSearchProductDto(productRepository.findAll());
     }
 
 }

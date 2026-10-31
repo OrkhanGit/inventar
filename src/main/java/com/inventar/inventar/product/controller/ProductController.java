@@ -2,6 +2,7 @@ package com.inventar.inventar.product.controller;
 
 import com.inventar.inventar.product.model.ProductDto;
 import com.inventar.inventar.product.model.ProductServiceDto;
+import com.inventar.inventar.product.model.SearchProductDto;
 import com.inventar.inventar.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -47,9 +48,14 @@ public class ProductController {
     public ResponseEntity<ProductDto> getByBarcode(@RequestParam String barcode) {
         ProductDto dto = productService.getByBarcode(barcode);
         if (dto == null) {
-            return ResponseEntity.notFound().build(); // 404
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/searchList")
+    public ResponseEntity<List<SearchProductDto>> getSearchList() {
+        return ResponseEntity.ok(productService.getSearchProducts());
     }
 
 

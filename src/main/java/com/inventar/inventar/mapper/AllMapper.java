@@ -5,7 +5,7 @@ import com.inventar.inventar.act.model.ActDto;
 import com.inventar.inventar.product.model.Product;
 import com.inventar.inventar.product.model.ProductDto;
 import com.inventar.inventar.product.model.ProductServiceDto;
-import com.inventar.inventar.product.service.ProductService;
+import com.inventar.inventar.product.model.SearchProductDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -27,5 +27,8 @@ public interface AllMapper {
     Product toProduct(ProductServiceDto productServiceDto);
 
     List<ProductServiceDto> toProductServiceDto(List<Product> product);
+
+    List<SearchProductDto> toSearchProductDto(List<Product> products);
+    SearchProductDto toSearchProductDto(SearchProductDto searchProductDto);
 
 }
