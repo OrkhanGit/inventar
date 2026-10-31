@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT u FROM AppUser u WHERE u.username = :username")
     Optional<AppUser> findForUpdate(@Param("username") String username);
+    Optional<AppUser> findByUsername(String username);
 }
