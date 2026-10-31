@@ -27,7 +27,7 @@ public class ActService {
     private final ProductRepository productRepository;
     private final AllMapper actMapper;
 
-    public ActDto sentProduct(ActDto actDto) {
+    public ActDto sentProduct(ActDto actDto, String username) {
         List<String> barcodes = actDto.getBarcode();
 
         if (barcodes == null || barcodes.isEmpty()) {
@@ -59,6 +59,7 @@ public class ActService {
         }
 
         Act act = actMapper.toAct(actDto);
+        act.setOwner(username);
         act.setDate(LocalDateTime.now());
         actRepository.save(act);
 
@@ -66,7 +67,7 @@ public class ActService {
     }
 
     @Transactional
-    public ActDto receiveProduct(ActDto actDto) {
+    public ActDto receiveProduct(ActDto actDto, String username) {
         List<String> barcodes = actDto.getBarcode();
         if (barcodes == null || barcodes.isEmpty()) {
             throw new IllegalArgumentException("Barkod siyahısı boş ola bilməz!");
@@ -119,6 +120,7 @@ public class ActService {
         productRepository.saveAll(toSave);
 
         Act act = actMapper.toAct(actDto);
+        act.setOwner(username);
         act.setDate(LocalDateTime.now(ZoneId.of("Asia/Baku")));
         actRepository.save(act);
 

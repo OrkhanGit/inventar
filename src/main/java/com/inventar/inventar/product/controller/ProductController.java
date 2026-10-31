@@ -6,6 +6,7 @@ import com.inventar.inventar.product.model.SearchProductDto;
 import com.inventar.inventar.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -19,9 +20,12 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/createProduct")
-    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto,
+                                                    Authentication authentication) {
 
-        return ResponseEntity.ok().body(productService.createProduct(productDto));
+        String username = authentication.getName();
+
+        return ResponseEntity.ok().body(productService.createProduct(productDto,username));
 
     }
 

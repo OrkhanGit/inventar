@@ -4,6 +4,7 @@ import com.inventar.inventar.act.model.ActDto;
 import com.inventar.inventar.act.service.ActService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,16 +17,22 @@ public class ActController {
     private final ActService actService;
 
     @PostMapping("/sentProduct")
-    public ResponseEntity<ActDto> sentProduct(@RequestBody ActDto actDto) {
+    public ResponseEntity<ActDto> sentProduct(@RequestBody ActDto actDto,
+                                              Authentication authentication) {
 
-        return ResponseEntity.ok(actService.sentProduct(actDto));
+        String username = authentication.getName();
+
+        return ResponseEntity.ok(actService.sentProduct(actDto,username));
 
     }
 
     @PostMapping("/receiveProduct")
-    public ResponseEntity<ActDto> receiveProduct(@RequestBody ActDto actDto) {
+    public ResponseEntity<ActDto> receiveProduct(@RequestBody ActDto actDto,
+                                                 Authentication authentication) {
 
-        return ResponseEntity.ok(actService.receiveProduct(actDto));
+        String username = authentication.getName();
+
+        return ResponseEntity.ok(actService.receiveProduct(actDto,username));
 
     }
 

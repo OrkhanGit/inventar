@@ -22,10 +22,11 @@ public class ProductService {
     private final ProductMovementDateRepository productMovementDateRepository;
 
     @Transactional
-    public ProductDto createProduct(ProductDto productDto) {
+    public ProductDto createProduct(ProductDto productDto, String username) {
 
         Product product = productMapper.toProduct(productDto);
         product.setStatus(Status.ACTIVE);
+        product.setOwner(username);
 
         ProductMovementDate movement = new ProductMovementDate();
         movement.setEntryDate(LocalDateTime.now(ZoneId.of("Asia/Baku")));
