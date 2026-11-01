@@ -21,9 +21,14 @@ public class SparePartController {
         return ResponseEntity.ok().body(sparePartService.getAllSparePart());
     }
 
-    @PostMapping("/changeStock")
+    @PutMapping("/changeStock")
     public ResponseEntity<SparePart> changeStock(@RequestBody RequestStock requestStock) {
         return ResponseEntity.ok(sparePartService.changeStock(requestStock));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<SparePart> createSparePart(SparePart sparePart) {
+        return ResponseEntity.ok().body(sparePartService.createSparePart(sparePart));
     }
 
 }

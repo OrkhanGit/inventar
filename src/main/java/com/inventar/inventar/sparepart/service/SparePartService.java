@@ -50,4 +50,27 @@ public class SparePartService {
 
         return sparePartRepository.save(sparePart);
     }
+
+    public SparePart createSparePart(SparePart request) {
+
+        String name = request.getSparePartName() == null ? "" : request.getSparePartName().trim();
+        if (name.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ad boş ola bilməz");
+        }
+
+        long count = request.getCount() == null ? 0L : request.getCount();
+        if (count < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Say mənfi ola bilməz");
+        }
+
+        if (sparePartRepository.existsBySparePartNameIgnoreCase(name)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bu adda ehtiyat hissəsi artıq var");
+        }
+
+        SparePart sparePart = new SparePart();
+        sparePart.setSparePartName(name);
+        sparePart.setCount(count);
+
+        return sparePartRepository.save(sparePart);
+    }
 }
