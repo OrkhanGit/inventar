@@ -19,9 +19,7 @@ public class SparePartService {
     private final SparePartRepository sparePartRepository;
 
     public List<SparePart> getAllSparePart() {
-
-        return sparePartRepository.getAllSparePart();
-
+        return sparePartRepository.findAll();
     }
 
     @Transactional
