@@ -94,6 +94,7 @@ public class ActService {
             if (product == null) {
                 product = new Product();
                 product.setBarcode(barcode);
+                product.setOwner(username);
             }
 
             if (names != null && i < names.size()) {
