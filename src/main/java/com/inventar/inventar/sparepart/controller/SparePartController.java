@@ -27,7 +27,7 @@ public class SparePartController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<SparePart> createSparePart(SparePart sparePart) {
+    public ResponseEntity<SparePart> createSparePart(@RequestBody SparePart sparePart) {
         return ResponseEntity.ok().body(sparePartService.createSparePart(sparePart));
     }
 
