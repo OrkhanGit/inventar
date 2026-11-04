@@ -6,6 +6,8 @@ import com.inventar.inventar.product.model.Product;
 import com.inventar.inventar.product.model.ProductDto;
 import com.inventar.inventar.product.model.ProductServiceDto;
 import com.inventar.inventar.product.model.SearchProductDto;
+import com.inventar.inventar.sparepart.model.SparePart;
+import com.inventar.inventar.sparepart.model.SparePartUsageDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -30,5 +32,7 @@ public interface AllMapper {
 
     List<SearchProductDto> toSearchProductDto(List<Product> products);
     SearchProductDto toSearchProductDto(SearchProductDto searchProductDto);
+
+    List<SparePartUsageDto> toSparePartDto(List<SparePart> spareParts);
 
 }

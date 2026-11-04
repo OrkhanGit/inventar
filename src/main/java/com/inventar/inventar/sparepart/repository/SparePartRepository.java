@@ -19,4 +19,6 @@ public interface SparePartRepository extends JpaRepository<SparePart, Long> {
 
     boolean existsBySparePartNameIgnoreCase(String sparePartName);
 
+    Optional<SparePart> findBySparePartName(String sparePartName);
+
 }

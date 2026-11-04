@@ -10,6 +10,8 @@ import com.inventar.inventar.mapper.AllMapper;
 import com.inventar.inventar.product.model.Product;
 import com.inventar.inventar.product.model.ProductMovementDate;
 import com.inventar.inventar.product.repository.ProductRepository;
+import com.inventar.inventar.sparepart.model.SparePartUsageDto;
+import com.inventar.inventar.sparepart.repository.SparePartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +28,9 @@ public class ActService {
     private final ActRepository actRepository;
     private final ProductRepository productRepository;
     private final AllMapper actMapper;
+    private final SparePartRepository sparePartRepository;
 
+    @Transactional
     public ActDto sentProduct(ActDto actDto, String username) {
         List<String> barcodes = actDto.getBarcode();
 
@@ -56,6 +60,19 @@ public class ActService {
                 }
             }
             productRepository.saveAll(activeProducts);
+        }
+
+        List<SparePartUsageDto> usedParts = actDto.getSpareParts();
+        if (usedParts != null) {
+            for (SparePartUsageDto usage : usedParts) {
+                if (usage.getSparePartName() == null || usage.getCount() == null) continue;
+
+                sparePartRepository.findBySparePartName(usage.getSparePartName())
+                        .ifPresent(part -> {
+                            part.setCount(part.getCount() - usage.getCount());
+                            sparePartRepository.save(part);
+                        });
+            }
         }
 
         Act act = actMapper.toAct(actDto);

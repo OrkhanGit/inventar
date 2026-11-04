@@ -1,5 +1,6 @@
 package com.inventar.inventar.act.model;
 
+import com.inventar.inventar.sparepart.model.SparePartUsageDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -20,5 +21,6 @@ public class ActDto {
     private String toUser;
     private List<String> condition;
     private List<Boolean> toService;
+    private List<SparePartUsageDto> spareParts;
 
 }
