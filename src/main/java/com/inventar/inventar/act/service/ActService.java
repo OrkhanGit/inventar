@@ -100,6 +100,7 @@ public class ActService {
                 .collect(Collectors.toMap(Product::getBarcode, p -> p));
 
         List<String> names = actDto.getName();
+        List<String> descriptions = actDto.getDescription();
         LocalDateTime entryDate = actDto.getDate() != null ? actDto.getDate() : LocalDateTime.now();
 
         List<Product> toSave = new ArrayList<>();
@@ -123,7 +124,10 @@ public class ActService {
             product.setLocation(actDto.getToLocation());
             product.setToLocation(actDto.getLocation());
             product.setFromUser(actDto.getFromUser());
-            product.setDescription(actDto.getDescription());
+
+            if (descriptions != null && i < descriptions.size()) {
+                product.setDescription(descriptions.get(i));
+            }
 
             applyState(product, actDto, i);
 
@@ -146,10 +150,8 @@ public class ActService {
     }
 
     public List<ActDto> getAllActs() {
-
         List<Act> all = actRepository.findAll();
         return actMapper.toActDto(all);
-
     }
 
     private void applyState(Product product, ActDto dto, int index) {
@@ -173,6 +175,4 @@ public class ActService {
         String p = place.trim();
         return SERVICE_PLACES.stream().anyMatch(s -> s.equalsIgnoreCase(p));
     }
-
-
 }

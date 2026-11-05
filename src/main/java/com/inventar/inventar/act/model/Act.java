@@ -22,7 +22,7 @@ public class Act {
     private List<String> name;
     private List<Long> count;
     private LocalDateTime date;
-    private String description;
+    private List<String> description;
     private String toUser;
     private String fromUser;
     private String owner;
