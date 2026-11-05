@@ -16,7 +16,7 @@ public class ActDto {
     private List<String> name;
     private List<Long> count;
     private LocalDateTime date;
-    private String description;
+    private List<String> description;
     private String fromUser;
     private String toUser;
     private List<String> condition;
